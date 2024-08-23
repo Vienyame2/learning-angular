@@ -67,7 +67,8 @@
               "buildTarget": "learning-angular:build:production"
             },
             "development": {
-              "buildTarget": "learning-angular:build:development"
+              "buildTarget": "learning-angular:build:development",
+              "port": 4202
             }
           },
           "defaultConfiguration": "development"
