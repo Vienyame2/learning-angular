@@ -1,2 +1,4 @@
 <h1>TODO List container</h1>
-<app-todo-item />
+<form [formGroup]="formGroup" (submit)="onSaveTodo()">
+  <app-todo-item/>
+</form>

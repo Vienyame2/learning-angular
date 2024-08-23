@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
+import { MatCheckbox } from '@angular/material/checkbox';
 import { MatInput } from '@angular/material/input';
 
 @Component({
@@ -8,13 +9,20 @@ import { MatInput } from '@angular/material/input';
   standalone: true,
   imports: [
     ReactiveFormsModule,
+    MatFormFieldModule,
     MatFormField,
-    MatLabel,
     MatInput,
+    MatCheckbox,
   ],
   templateUrl: './todo-item.component.html',
   styleUrl: './todo-item.component.scss'
 })
 export class TodoItemComponent {
-    public title = new FormControl('');
+  public name = new FormControl('');
+  public isCompleted = new FormControl('');
+
+  public onKeyDown(event: Event) {
+      event.preventDefault();
+      console.log('Enter key pressed');
+  }
 }
