@@ -1,4 +1,7 @@
-<div class="todo-item">
-  <mat-checkbox class="todo-item__check" color="primary" [formControl]="isCompleted"></mat-checkbox>
-  <span class="todo-item__input" [formControl]="name" contenteditable="true" data-placeholder="'Nouvel élément'" (keydown.enter)="onKeyDown($event)"></span>
-</div>
+
+<form [formGroup]="formGroup">
+  <div class="todo-item">
+    <mat-checkbox class="todo-item__check" color="primary" [formControl]="isCompleted"></mat-checkbox>
+    <input class="todo-item__input" [formControl]="name" data-placeholder="'Nouvel élément'" (keydown.enter)="onKeyDown($event)" />
+  </div>
+</form>

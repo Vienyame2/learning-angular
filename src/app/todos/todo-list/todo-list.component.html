@@ -1,4 +1,6 @@
 <h1>TODO List container</h1>
-<form [formGroup]="formGroup" (submit)="onSaveTodo()">
-  <app-todo-item/>
-</form>
+{{ todoCount()}}
+@for (item of todoList(); track $index) {
+  <app-todo-item [todoItem]="item" (add)="onAddItem($event)"/>
+}
+<app-todo-item (add)="onAddItem($event)"/>

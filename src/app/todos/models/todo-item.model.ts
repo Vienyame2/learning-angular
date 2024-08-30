@@ -1,6 +1,6 @@
 export interface TodoItem {
-  id: number;
-  title: string;
+  id: string;
+  name: string;
   state: 'editing' | 'completed' | 'active' | 'deleted';
   creationDate: Date;
 }
