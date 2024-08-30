@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject, Signal } from '@angular/core';
 import { TodoItemComponent } from '../todo-item/todo-item.component';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormField } from '@angular/material/form-field';
+import { TodoListService } from '../services/todo-list.service';
+import { TodoItem } from '../models/todo-item.model';
 
 @Component({
   selector: 'app-todo-list',
@@ -15,15 +17,15 @@ import { MatFormField } from '@angular/material/form-field';
   styleUrl: './todo-list.component.scss'
 })
 export class TodoListComponent {
-  public formGroup: FormGroup;
+  public todoService = inject(TodoListService);
+  public todoList: Signal<TodoItem[]> = this.todoService.todoList;
+  public todoCount: Signal<number> = this.todoService.todoCount;
 
   constructor() {
-    this.formGroup = new FormGroup({
-      name: new FormControl(''),
-    });
+
   }
 
-  public onSaveTodo() {
-
+  public onAddItem(todoItem: TodoItem) {
+    this.todoService.add(todoItem);
   }
 }
