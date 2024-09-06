@@ -2,6 +2,6 @@
 <form [formGroup]="formGroup">
   <div class="todo-item">
     <mat-checkbox class="todo-item__check" color="primary" [formControl]="isCompleted"></mat-checkbox>
-    <input class="todo-item__input" [formControl]="name" data-placeholder="'Nouvel élément'" (keydown.enter)="onKeyDown($event)" />
+    <input #addTodoItemInput class="todo-item__input" [formControl]="name" data-placeholder="'Nouvel élément'" (keydown.enter)="onKeyDown($event)" />
   </div>
 </form>

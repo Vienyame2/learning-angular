@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
 import { MatCheckbox } from '@angular/material/checkbox';
@@ -19,7 +19,8 @@ import { TodoItem } from '../models/todo-item.model';
   styleUrl: './todo-item.component.scss'
 })
 export class TodoItemComponent implements OnInit {
-  @Output() public add = new EventEmitter<TodoItem>();
+  @Output() public save = new EventEmitter<TodoItem>();
+  @ViewChild('addTodoItemInput') public todoItemRef!: ElementRef;
 
   public name = new FormControl<string>('', Validators.minLength(1));
   public isCompleted = new FormControl(false);
@@ -42,13 +43,20 @@ export class TodoItemComponent implements OnInit {
       event.preventDefault();
       const formValue = this.formGroup.value;
       if (formValue.name.length > 0) {
-        this.add.emit({
-          id: crypto.randomUUID(),
+        this.save.emit({
+          id: this.todoItem?.id,
           name: formValue.name,
-          state: 'active',
-          creationDate: new Date
+          state: this.todoItem?.state || 'active',
+          creationDate: this.todoItem?.creationDate || new Date
         })
-        this.formGroup.reset();
+
+        if (!this.todoItem) {
+          this.name.reset();
+        }
       }
+  }
+
+  public focus(){
+    this.todoItemRef.nativeElement.focus();
   }
 }
