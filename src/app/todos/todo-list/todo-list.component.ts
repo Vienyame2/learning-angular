@@ -17,7 +17,8 @@ import { TodoItem } from '../models/todo-item.model';
   styleUrl: './todo-list.component.scss'
 })
 export class TodoListComponent {
-  @ViewChild('addTodoItem') public todoItemRef!: TodoItemComponent;
+  @ViewChild('addTodoItem')
+  public todoItemRef!: TodoItemComponent;
 
   public todoService = inject(TodoListService);
   public todoList: Signal<TodoItem[]> = this.todoService.todoList;
@@ -35,5 +36,9 @@ export class TodoListComponent {
       return;
     }
     this.todoService.add(todoItem);
+  }
+
+  public onDeleteItem(id: string) {
+    this.todoService.delete(id);
   }
 }

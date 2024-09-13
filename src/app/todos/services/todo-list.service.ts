@@ -30,4 +30,11 @@ export class TodoListService {
         ...state, items: [...updatedList]
     }))
   }
+
+  public delete(id: string) {
+    const updatedList = this.state().items.filter(item => item.id !== id);
+    this.state.update((state) => ({
+      ...state, items: updatedList, count: state.count -1
+    }))
+  }
 }

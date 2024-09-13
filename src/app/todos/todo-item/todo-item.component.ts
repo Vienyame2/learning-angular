@@ -4,6 +4,8 @@ import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { MatInput } from '@angular/material/input';
 import { TodoItem } from '../models/todo-item.model';
+import { MatIcon } from '@angular/material/icon';
+import { MatIconButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-todo-item',
@@ -14,12 +16,19 @@ import { TodoItem } from '../models/todo-item.model';
     MatFormField,
     MatInput,
     MatCheckbox,
+    MatIcon,
+    MatIconButton,
   ],
   templateUrl: './todo-item.component.html',
   styleUrl: './todo-item.component.scss'
 })
 export class TodoItemComponent implements OnInit {
-  @Output() public save = new EventEmitter<TodoItem>();
+  @Output()
+  public save = new EventEmitter<TodoItem>();
+
+  @Output()
+  public delete = new EventEmitter<string>();
+
   @ViewChild('addTodoItemInput') public todoItemRef!: ElementRef;
 
   public name = new FormControl<string>('', Validators.minLength(1));
@@ -59,4 +68,9 @@ export class TodoItemComponent implements OnInit {
   public focus(){
     this.todoItemRef.nativeElement.focus();
   }
+
+  public onDelete() {
+    this.delete.emit(this.todoItem.id);
+  }
+
 }
