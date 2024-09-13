@@ -1,7 +1,5 @@
 <h1>TODO List container</h1>
-{{ todoCount()}}
-
-@for (item of todoList(); track item.id) {
-  <app-todo-item [todoItem]="item" (save)="onSaveItem($event)" (delete)="onDeleteItem($event)" />
+{{ todoCount()}} @for (item of todoList(); track item.id) {
+<app-todo-item [todoItem]="item" (save)="onSaveItem($event)" (delete)="onDeleteItem($event)" />
 }
-<app-todo-item #addTodoItem (save)="onSaveItem($event)"/>
+<app-todo-item class="todos-item" #addTodoItem (save)="onSaveItem($event)" />
