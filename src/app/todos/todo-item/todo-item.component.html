@@ -1,10 +1,20 @@
-
 <form [formGroup]="formGroup">
-  <div class="todo-item">
-    <mat-checkbox class="todo-item__check" color="primary" [formControl]="isCompleted"></mat-checkbox>
-    <input #addTodoItemInput class="todo-item__input" [formControl]="name" data-placeholder="'Nouvel élément'" (keydown.enter)="onKeyDown($event)" />
-    <button mat-icon-button (click)="onDelete()">
-      <mat-icon color="warn">delete</mat-icon>
-    </button>
-  </div>
+    <div class="todo-item">
+        @if (todoItem) {
+        <mat-checkbox class="todo-item__check" color="primary" [formControl]="isCompleted"></mat-checkbox>
+        }
+        <input
+            #addTodoItemInput
+            class="todo-item__input"
+            [formControl]="name"
+            data-placeholder="'Nouvel élément'"
+            (keydown.enter)="onKeyDown($event)" />
+        @if (todoItem) {
+        <button mat-icon-button (click)="onDelete()">
+            <mat-icon color="warn">delete</mat-icon>
+        </button>
+        } @if (!todoItem) {
+        <button mat-icon-button (click)="onKeyDown($event)"><mat-icon fontIcon="add"></mat-icon></button>
+        }
+    </div>
 </form>
