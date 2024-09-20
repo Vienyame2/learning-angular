@@ -1,5 +1,24 @@
 <h1>TODO List container</h1>
-{{ todoCount()}} @for (item of todoList(); track item.id) {
-<app-todo-item [todoItem]="item" (save)="onSaveItem($event)" (delete)="onDeleteItem($event)" />
+
+<section class="counter">
+    <div>{{ todoCount()}}</div>
+</section>
+<section class="new-list">
+    @for (item of todoList(); track item.id) {
+    <app-todo-item
+        [todoItem]="item"
+        (save)="onSaveItem($event)"
+        (delete)="onDeleteItem($event)"
+        (terminate)="onComplete($event)" />
+    }
+    <app-todo-item class="todos-item" #addTodoItem (save)="onSaveItem($event)" />
+</section>
+@if (completedTodos().length) {
+<section class="completed-list">
+    <mat-divider></mat-divider>
+    <!-- completed todos -->
+    @for (item of completedTodos(); track item.id) {
+    <app-todo-item [todoItem]="item" (delete)="onDeleteItem($event)" (terminate)="onComplete($event)" />
+    }
+</section>
 }
-<app-todo-item class="todos-item" #addTodoItem (save)="onSaveItem($event)" />

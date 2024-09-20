@@ -3,38 +3,46 @@ import { TodoItem } from '../models/todo-item.model';
 import { TodoListState } from './todo-list-state.model';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root',
 })
 export class TodoListService {
-  public state = signal<TodoListState>({ items: [], count: 0 });
+    public state = signal<TodoListState>({ items: [], count: 0 });
 
-  constructor() { }
+    constructor() {}
 
-  public todoList = computed(() => this.state().items);
-  public todoCount = computed(() => this.state().count);
+    public todoList = computed(() => this.state().items.filter(item => item.state !== 'completed'));
+    public completedTodos = computed(() => this.state().items.filter(item => item.state === 'completed'));
+    public todoCount = computed(() => this.state().count);
 
-  public add(item: TodoItem) {
-    item.id = crypto.randomUUID();
-    this.state.update(state => ({ ...state, items: [...state.items, item], count: state.count + 1 }));
-  }
+    public add(item: TodoItem) {
+        item.id = crypto.randomUUID();
+        this.state.update(state => ({ ...state, items: [...state.items, item], count: state.count + 1 }));
+    }
 
-  public update(todoItem: TodoItem) {
-    const updatedList = this.state().items.map(item => {
-      if(item.id === todoItem.id) {
-        return todoItem;
-      }
-      return item;
-    });
+    public update(todoItem: TodoItem) {
+        const updatedList = this.state().items.map(item => {
+            if (item.id === todoItem.id) {
+                return todoItem;
+            }
+            return item;
+        });
 
-    this.state.update((state) => ({
-        ...state, items: [...updatedList]
-    }))
-  }
+        this.state.update(state => ({
+            ...state,
+            items: [...updatedList],
+        }));
+    }
 
-  public delete(id: string) {
-    const updatedList = this.state().items.filter(item => item.id !== id);
-    this.state.update((state) => ({
-      ...state, items: updatedList, count: state.count -1
-    }))
-  }
+    public delete(id: string) {
+        const updatedList = this.state().items.filter(item => item.id !== id);
+        this.state.update(state => ({
+            ...state,
+            items: updatedList,
+            count: state.count - 1,
+        }));
+    }
+
+    public complete(todoItem: TodoItem) {
+        this.update(todoItem);
+    }
 }

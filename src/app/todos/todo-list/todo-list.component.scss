@@ -1,4 +1,10 @@
 .todos-item {
-  display: block;
-  margin-left: 40px;
+    display: block;
+   //margin-left: 40px;
+}
+
+.counter,
+.new-list,
+.completed-list {
+    margin: 50px 0;
 }
