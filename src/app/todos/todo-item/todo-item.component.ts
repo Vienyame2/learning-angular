@@ -8,69 +8,67 @@ import { MatIcon } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
 
 @Component({
-  selector: 'app-todo-item',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatFormField,
-    MatInput,
-    MatCheckbox,
-    MatIcon,
-    MatIconButton,
-  ],
-  templateUrl: './todo-item.component.html',
-  styleUrl: './todo-item.component.scss'
+    selector: 'app-todo-item',
+    standalone: true,
+    imports: [ReactiveFormsModule, MatFormFieldModule, MatFormField, MatInput, MatCheckbox, MatIcon, MatIconButton],
+    templateUrl: './todo-item.component.html',
+    styleUrl: './todo-item.component.scss',
 })
 export class TodoItemComponent implements OnInit {
-  @Output()
-  public save = new EventEmitter<TodoItem>();
+    @Output()
+    public save = new EventEmitter<TodoItem>();
 
-  @Output()
-  public delete = new EventEmitter<string>();
+    @Output()
+    public delete = new EventEmitter<string>();
 
-  @ViewChild('addTodoItemInput') public todoItemRef!: ElementRef;
+    @Output()
+    public terminate = new EventEmitter<TodoItem>();
 
-  public name = new FormControl<string>('', Validators.minLength(1));
-  public isCompleted = new FormControl(false);
-  public formGroup: FormGroup;
-  @Input() todoItem!: TodoItem;
+    @ViewChild('addTodoItemInput') public todoItemRef!: ElementRef;
 
-  constructor() {
-    this.formGroup = new FormGroup({
-      name: this.name,
-      isCompleted: this.isCompleted
-    });
-  }
+    public name = new FormControl<string>('', Validators.minLength(1));
+    public isCompleted = new FormControl(false);
+    public formGroup: FormGroup;
+    @Input() todoItem!: TodoItem;
 
-  public ngOnInit(): void {
-    this.name.setValue(this.todoItem?.name);
-    this.isCompleted.setValue(this.todoItem?.state === 'completed');
-  }
+    constructor() {
+        this.formGroup = new FormGroup({
+            name: this.name,
+            isCompleted: this.isCompleted,
+        });
+    }
 
-  public onKeyDown(event: Event) {
-      event.preventDefault();
-      const formValue = this.formGroup.value;
-      if (formValue.name.length > 0) {
-        this.save.emit({
-          id: this.todoItem?.id,
-          name: formValue.name,
-          state: this.todoItem?.state || 'active',
-          creationDate: this.todoItem?.creationDate || new Date
-        })
+    public ngOnInit(): void {
+        this.name.setValue(this.todoItem?.name);
+        this.isCompleted.setValue(this.todoItem?.state === 'completed');
+        this.isCompleted.valueChanges.subscribe(value => {
+            this.todoItem.state = value ? 'completed' : 'active';
+            this.terminate.emit(this.todoItem);
+        });
+    }
 
-        if (!this.todoItem) {
-          this.name.reset();
+    public onKeyDown(event: Event) {
+        event.preventDefault();
+        const formValue = this.formGroup.value;
+        if (formValue.name.length > 0) {
+            this.save.emit({
+                id: this.todoItem?.id,
+                name: formValue.name,
+                state: this.todoItem?.state || 'active',
+                creationDate: this.todoItem?.creationDate || new Date(),
+            });
+
+            if (!this.todoItem) {
+                this.name.reset();
+            }
         }
-      }
-  }
+    }
 
-  public focus(){
-    this.todoItemRef.nativeElement.focus();
-  }
+    public focus() {
+        this.todoItemRef.nativeElement.focus();
+    }
 
-  public onDelete() {
-    this.delete.emit(this.todoItem.id);
-  }
-
+    public onDelete() {
+        this.delete.emit(this.todoItem.id);
+    }
 }

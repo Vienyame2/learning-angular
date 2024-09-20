@@ -1,44 +1,43 @@
-import { Component, ElementRef, inject, Signal, ViewChild } from '@angular/core';
+import { Component, inject, Signal, ViewChild } from '@angular/core';
 import { TodoItemComponent } from '../todo-item/todo-item.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormField } from '@angular/material/form-field';
 import { TodoListService } from '../services/todo-list.service';
 import { TodoItem } from '../models/todo-item.model';
+import { MatDivider } from '@angular/material/divider';
 
 @Component({
-  selector: 'app-todo-list',
-  standalone: true,
-  imports: [
-    TodoItemComponent,
-    ReactiveFormsModule,
-    MatFormField
-  ],
-  templateUrl: './todo-list.component.html',
-  styleUrl: './todo-list.component.scss'
+    selector: 'app-todo-list',
+    standalone: true,
+    imports: [TodoItemComponent, ReactiveFormsModule, MatFormField, MatDivider],
+    templateUrl: './todo-list.component.html',
+    styleUrl: './todo-list.component.scss',
 })
 export class TodoListComponent {
-  @ViewChild('addTodoItem')
-  public todoItemRef!: TodoItemComponent;
+    @ViewChild('addTodoItem')
+    public todoItemRef!: TodoItemComponent;
 
-  public todoService = inject(TodoListService);
-  public todoList: Signal<TodoItem[]> = this.todoService.todoList;
-  public todoCount: Signal<number> = this.todoService.todoCount;
+    public todoService = inject(TodoListService);
+    public todoList: Signal<TodoItem[]> = this.todoService.todoList;
+    public completedTodos: Signal<TodoItem[]> = this.todoService.completedTodos;
+    public todoCount: Signal<number> = this.todoService.todoCount;
 
-  constructor() {
+    constructor() {}
 
-  }
-
-
-  public onSaveItem(todoItem: TodoItem) {
-    if(todoItem.id) {
-      this.todoService.update(todoItem);
-      this.todoItemRef.focus();
-      return;
+    public onSaveItem(todoItem: TodoItem) {
+        if (todoItem.id) {
+            this.todoService.update(todoItem);
+            this.todoItemRef.focus();
+            return;
+        }
+        this.todoService.add(todoItem);
     }
-    this.todoService.add(todoItem);
-  }
 
-  public onDeleteItem(id: string) {
-    this.todoService.delete(id);
-  }
+    public onDeleteItem(id: string) {
+        this.todoService.delete(id);
+    }
+
+    public onComplete($event: TodoItem) {
+        this.todoService.complete($event);
+    }
 }

@@ -5,8 +5,11 @@
         }
         <input
             #addTodoItemInput
-            class="todo-item__input"
+            class="todo-item__input todo-item__input--flat"
+            [class.todo-item__input--completed]="isCompleted.value"
+            [class.todo-item__input--empty]="!todoItem"
             [formControl]="name"
+            [placeholder]="todoItem ? '' : 'Add new task'"
             data-placeholder="'Nouvel élément'"
             (keydown.enter)="onKeyDown($event)" />
         @if (todoItem) {
@@ -14,7 +17,7 @@
             <mat-icon color="warn">delete</mat-icon>
         </button>
         } @if (!todoItem) {
-        <button mat-icon-button (click)="onKeyDown($event)"><mat-icon fontIcon="add"></mat-icon></button>
+        <button mat-icon-button (click)="onKeyDown($event)" [disabled]="!name!.value?.length"><mat-icon fontIcon="add"></mat-icon></button>
         }
     </div>
 </form>
