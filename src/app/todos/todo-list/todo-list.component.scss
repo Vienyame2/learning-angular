@@ -1,10 +1,18 @@
 .todos-item {
     display: block;
-   //margin-left: 40px;
 }
 
 .counter,
 .new-list,
 .completed-list {
     margin: 50px 0;
+}
+
+.todo {
+  &__counters {
+    display: flex;
+    justify-content: end;
+    padding: 0 3em;
+    gap: 3em;
+  }
 }
