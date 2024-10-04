@@ -1,7 +1,11 @@
-<h1>TODO List container</h1>
+<h1>Todo</h1>
 
-<section class="counter">
-    <div>{{ todoCount()}}</div>
+<section>
+    <div class="todo__counters">
+      <div [matBadge]="todoCounter().total" matBadgeSize="small" matBadgeColor="primary">Total</div>
+      <div [matBadge]="todoCounter().active" matBadgeSize="small" matBadgeColor="primary">Active</div>
+      <div [matBadge]="todoCounter().completed" matBadgeSize="small" matBadgeColor="primary">Completed</div>
+    </div>
 </section>
 <section class="new-list">
     @for (item of todoList(); track item.id) {
