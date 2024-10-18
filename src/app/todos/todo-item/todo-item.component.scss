@@ -21,8 +21,8 @@
             background-color: #f4f4f4;
         }
 
-        &--empty{
-          margin-left: 40px;
+        &--empty {
+            margin-left: 40px;
         }
         &--flat {
             border-color: transparent;
@@ -33,6 +33,16 @@
         &--completed {
             text-decoration: line-through;
             text-decoration-line: line-through;
+        }
+        &--editing {
+            border-color: aquamarine !important;
+            &:focus-visible {
+                border-color: aquamarine !important;
+            }
+        }
+
+        &:focus-visible {
+            outline: 0;
         }
     }
 }
