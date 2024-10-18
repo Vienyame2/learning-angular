@@ -6,11 +6,21 @@ import { MatInput } from '@angular/material/input';
 import { TodoItem } from '../models/todo-item.model';
 import { MatIcon } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
+import { NgClass } from '@angular/common';
 
 @Component({
     selector: 'app-todo-item',
     standalone: true,
-    imports: [ReactiveFormsModule, MatFormFieldModule, MatFormField, MatInput, MatCheckbox, MatIcon, MatIconButton],
+    imports: [
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatFormField,
+        MatInput,
+        MatCheckbox,
+        MatIcon,
+        MatIconButton,
+        NgClass,
+    ],
     templateUrl: './todo-item.component.html',
     styleUrl: './todo-item.component.scss',
 })
@@ -26,11 +36,12 @@ export class TodoItemComponent implements OnInit {
 
     @ViewChild('addTodoItemInput') public todoItemRef!: ElementRef;
 
+    @Input() todoItem!: TodoItem;
+
     public name = new FormControl<string>('', Validators.minLength(1));
     public isCompleted = new FormControl(false);
     public formGroup: FormGroup;
-    @Input() todoItem!: TodoItem;
-
+    public inputStatus: string = '';
     constructor() {
         this.formGroup = new FormGroup({
             name: this.name,
@@ -45,10 +56,28 @@ export class TodoItemComponent implements OnInit {
             this.todoItem.state = value ? 'completed' : 'active';
             this.terminate.emit(this.todoItem);
         });
+
+        this.name.valueChanges.subscribe(() => {
+            if (this.todoItem?.id) {
+                this.todoItem.state = 'editing';
+            }
+            this.inputStatus = 'todo-item__input--editing';
+        });
     }
 
-    public onKeyDown(event: Event) {
-        event.preventDefault();
+    public onKeyDown(event: KeyboardEvent) {
+        // event.preventDefault();
+
+        if (event.key.toLowerCase() === 'enter') {
+            this.sendItem();
+            this.inputStatus = '';
+            return;
+        }
+
+        console.log(event);
+    }
+
+    public sendItem() {
         const formValue = this.formGroup.value;
         if (formValue.name.length > 0) {
             this.save.emit({

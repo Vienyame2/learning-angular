@@ -6,18 +6,23 @@
         <input
             #addTodoItemInput
             class="todo-item__input todo-item__input--flat"
-            [class.todo-item__input--completed]="isCompleted.value"
-            [class.todo-item__input--empty]="!todoItem"
+            [ngClass]="{
+              'todo-item__input--editing': inputStatus.length,
+              'todo-item__input--completed': isCompleted.value,
+              'todo-item__input--empty':!todoItem
+            }"
             [formControl]="name"
             [placeholder]="todoItem ? '' : 'Add new task'"
             data-placeholder="'Nouvel élément'"
-            (keydown.enter)="onKeyDown($event)" />
+            (keydown)="onKeyDown($event)" />
         @if (todoItem) {
         <button mat-icon-button (click)="onDelete()">
             <mat-icon color="warn">delete</mat-icon>
         </button>
         } @if (!todoItem) {
-        <button mat-icon-button (click)="onKeyDown($event)" [disabled]="!name!.value?.length"><mat-icon fontIcon="add"></mat-icon></button>
+        <button mat-icon-button (click)="sendItem()" [disabled]="!name!.value?.length">
+            <mat-icon fontIcon="add"></mat-icon>
+        </button>
         }
     </div>
 </form>
