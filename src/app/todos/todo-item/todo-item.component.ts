@@ -1,4 +1,14 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import {
+    Component,
+    DestroyRef,
+    ElementRef,
+    EventEmitter,
+    inject,
+    Input,
+    OnInit,
+    Output,
+    ViewChild,
+} from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
 import { MatCheckbox } from '@angular/material/checkbox';
@@ -7,6 +17,8 @@ import { TodoItem } from '../models/todo-item.model';
 import { MatIcon } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
 import { NgClass } from '@angular/common';
+import { tap, timer } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
     selector: 'app-todo-item',
@@ -25,6 +37,9 @@ import { NgClass } from '@angular/common';
     styleUrl: './todo-item.component.scss',
 })
 export class TodoItemComponent implements OnInit {
+    @ViewChild('addTodoItemInput')
+    public todoItemRef!: ElementRef;
+
     @Output()
     public save = new EventEmitter<TodoItem>();
 
@@ -34,14 +49,19 @@ export class TodoItemComponent implements OnInit {
     @Output()
     public terminate = new EventEmitter<TodoItem>();
 
-    @ViewChild('addTodoItemInput') public todoItemRef!: ElementRef;
-
-    @Input() todoItem!: TodoItem;
+    @Input()
+    public todoItem!: TodoItem;
 
     public name = new FormControl<string>('', Validators.minLength(1));
     public isCompleted = new FormControl(false);
     public formGroup: FormGroup;
-    public inputStatus: string = '';
+    public inputStatus = {
+        isEditing: false,
+        isEdited: false,
+    };
+
+    private destroyed$ = inject(DestroyRef);
+
     constructor() {
         this.formGroup = new FormGroup({
             name: this.name,
@@ -61,25 +81,28 @@ export class TodoItemComponent implements OnInit {
             if (this.todoItem?.id) {
                 this.todoItem.state = 'editing';
             }
-            this.inputStatus = 'todo-item__input--editing';
+            this.inputStatus.isEditing = true;
         });
     }
 
     public onKeyDown(event: KeyboardEvent) {
-        // event.preventDefault();
-
         if (event.key.toLowerCase() === 'enter') {
             this.sendItem();
-            this.inputStatus = '';
+            if (this.todoItem?.id) {
+                this.inputStatus.isEdited = true;
+                timer(1000)
+                    .pipe(takeUntilDestroyed(this.destroyed$))
+                    .subscribe(() => {
+                        this.inputStatus.isEdited = false;
+                    });
+            }
             return;
         }
-
-        console.log(event);
     }
 
     public sendItem() {
         const formValue = this.formGroup.value;
-        if (formValue.name.length > 0) {
+        if (formValue.name?.length > 0) {
             this.save.emit({
                 id: this.todoItem?.id,
                 name: formValue.name,
@@ -99,5 +122,9 @@ export class TodoItemComponent implements OnInit {
 
     public onDelete() {
         this.delete.emit(this.todoItem.id);
+    }
+
+    public onFocusOut() {
+        this.inputStatus.isEditing = false;
     }
 }

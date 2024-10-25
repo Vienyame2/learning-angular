@@ -7,17 +7,21 @@
             #addTodoItemInput
             class="todo-item__input todo-item__input--flat"
             [ngClass]="{
-              'todo-item__input--editing': inputStatus.length,
+              'todo-item__input--editing': inputStatus.isEditing,
               'todo-item__input--completed': isCompleted.value,
               'todo-item__input--empty':!todoItem
             }"
             [formControl]="name"
             [placeholder]="todoItem ? '' : 'Add new task'"
             data-placeholder="'Nouvel élément'"
+            (focusout)="onFocusOut()"
             (keydown)="onKeyDown($event)" />
+        @if (inputStatus.isEdited) {
+              <mat-icon matSuffix class="success">check_circle</mat-icon>
+        }
         @if (todoItem) {
         <button mat-icon-button (click)="onDelete()">
-            <mat-icon color="warn">delete</mat-icon>
+            <mat-icon class="error">delete</mat-icon>
         </button>
         } @if (!todoItem) {
         <button mat-icon-button (click)="sendItem()" [disabled]="!name!.value?.length">

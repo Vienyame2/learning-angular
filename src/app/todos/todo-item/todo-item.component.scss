@@ -40,9 +40,24 @@
                 border-color: aquamarine !important;
             }
         }
-
         &:focus-visible {
             outline: 0;
         }
     }
+}
+
+.success {
+  color: green; //#4CAF50;
+}
+
+.error {
+  color: red; //#F44336;
+}
+
+.warning {
+  color: orange; // #FFC107;
+}
+
+.info {
+  color: blue; // #2196F3;
 }
