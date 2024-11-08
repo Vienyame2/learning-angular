@@ -2,7 +2,10 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 5px;
+    background-color: #f4f4f4;
+    margin-bottom: 10px;
     //border-top: 1px solid #ccc;
 
     &__input {
@@ -10,7 +13,7 @@
         justify-content: space-between;
         align-items: center;
         padding: 10px;
-        flex: 1;
+        flex: 1 1 0;
         background-color: #f4f4f4;
 
         &:empty::before {
@@ -33,6 +36,8 @@
         &--completed {
             text-decoration: line-through;
             text-decoration-line: line-through;
+            opacity: 0.4;
+            cursor: default;
         }
         &--editing {
             border-color: aquamarine !important;
@@ -44,20 +49,28 @@
             outline: 0;
         }
     }
+
+    &__actions {
+        display: flex;
+        gap: 5px;
+        justify-content: space-between;
+        align-items: center;
+        height: 30px;
+    }
 }
 
 .success {
-  color: green; //#4CAF50;
+    color: green; //#4CAF50;
 }
 
 .error {
-  color: red; //#F44336;
+    color: red; //#F44336;
 }
 
 .warning {
-  color: orange; // #FFC107;
+    color: orange; // #FFC107;
 }
 
 .info {
-  color: blue; // #2196F3;
+    color: blue; // #2196F3;
 }

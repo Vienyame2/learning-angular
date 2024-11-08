@@ -1,5 +1,5 @@
 <form [formGroup]="formGroup">
-    <div class="todo-item">
+    <div class="todo-item" (mouseover)="displayActionButtons = true">
         @if (todoItem) {
         <mat-checkbox class="todo-item__check" color="primary" [formControl]="isCompleted"></mat-checkbox>
         }
@@ -13,20 +13,23 @@
             }"
             [formControl]="name"
             [placeholder]="todoItem ? '' : 'Add new task'"
+            [readOnly]="isCompleted.value"
             data-placeholder="'Nouvel élément'"
             (focusout)="onFocusOut()"
+            (mouseout)="displayActionButtons = false"
             (keydown)="onKeyDown($event)" />
-        @if (inputStatus.isEdited) {
-              <mat-icon matSuffix class="success">check_circle</mat-icon>
-        }
-        @if (todoItem) {
-        <button mat-icon-button (click)="onDelete()">
-            <mat-icon class="error">delete</mat-icon>
-        </button>
-        } @if (!todoItem) {
-        <button mat-icon-button (click)="sendItem()" [disabled]="!name!.value?.length">
-            <mat-icon fontIcon="add"></mat-icon>
-        </button>
-        }
+        <div class="todo-item__actions">
+            @if (inputStatus.isEdited) {
+            <mat-icon matSuffix class="success">check_circle</mat-icon>
+            } @if (todoItem && displayActionButtons) {
+            <button mat-icon-button (click)="onDelete()">
+                <mat-icon class="error">delete</mat-icon>
+            </button>
+            } @if (!todoItem) {
+            <button mat-icon-button (click)="sendItem()" [disabled]="!name!.value?.length">
+                <mat-icon fontIcon="add"></mat-icon>
+            </button>
+            }
+        </div>
     </div>
 </form>
