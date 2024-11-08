@@ -17,7 +17,7 @@ import { TodoItem } from '../models/todo-item.model';
 import { MatIcon } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
 import { NgClass } from '@angular/common';
-import { tap, timer } from 'rxjs';
+import { timer } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -60,6 +60,7 @@ export class TodoItemComponent implements OnInit {
         isEdited: false,
     };
 
+    public displayActionButtons = false;
     private destroyed$ = inject(DestroyRef);
 
     constructor() {

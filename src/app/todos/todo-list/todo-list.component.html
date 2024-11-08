@@ -22,7 +22,7 @@
     <mat-divider></mat-divider>
     <!-- completed todos -->
     @for (item of completedTodos(); track item.id) {
-    <app-todo-item [todoItem]="item" (delete)="onDeleteItem($event)" (terminate)="onComplete($event)" />
+    <app-todo-item [todoItem]="item" (delete)="onDeleteItem($event)" (terminate)="onComplete($event)"/>
     }
 </section>
 }
