@@ -18,6 +18,8 @@ import { MatIconButton } from '@angular/material/button';
 import { NgClass } from '@angular/common';
 import { timer } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatDialog } from '@angular/material/dialog';
+import { TodoItemInformationComponent } from '../todo-item-information/todo-item-information.component';
 
 @Component({
     selector: 'app-todo-item',
@@ -50,6 +52,7 @@ export class TodoItemComponent implements OnInit {
     };
 
     public displayActionButtons = false;
+    private dialog = inject(MatDialog);
     private destroyed$ = inject(DestroyRef);
 
     constructor() {
@@ -116,5 +119,14 @@ export class TodoItemComponent implements OnInit {
 
     public onFocusOut() {
         this.inputStatus.isEditing = false;
+    }
+
+    public onOpenDialog() {
+        this.dialog.open(TodoItemInformationComponent, {
+            data: this.todoItem,
+            height: '99%',
+            width: '350px',
+            position: { right: '5px', top: '5px' },
+        });
     }
 }
