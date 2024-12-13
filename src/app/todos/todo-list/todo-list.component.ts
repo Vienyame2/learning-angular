@@ -1,7 +1,6 @@
 import { Component, computed, inject, Signal, ViewChild } from '@angular/core';
 import { TodoItemComponent } from '../todo-item/todo-item.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatFormField } from '@angular/material/form-field';
 import { TodoListService } from '../services/todo-list.service';
 import { TodoItem } from '../models/todo-item.model';
 import { MatDivider } from '@angular/material/divider';
@@ -9,8 +8,7 @@ import { MatBadge } from '@angular/material/badge';
 
 @Component({
     selector: 'app-todo-list',
-    standalone: true,
-    imports: [TodoItemComponent, ReactiveFormsModule, MatFormField, MatDivider, MatBadge],
+    imports: [TodoItemComponent, ReactiveFormsModule, MatDivider, MatBadge],
     templateUrl: './todo-list.component.html',
     styleUrl: './todo-list.component.scss',
 })

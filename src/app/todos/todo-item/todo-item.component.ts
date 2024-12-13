@@ -10,9 +10,8 @@ import {
     ViewChild,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCheckbox } from '@angular/material/checkbox';
-import { MatInput } from '@angular/material/input';
 import { TodoItem } from '../models/todo-item.model';
 import { MatIcon } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
@@ -22,17 +21,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
     selector: 'app-todo-item',
-    standalone: true,
-    imports: [
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatFormField,
-        MatInput,
-        MatCheckbox,
-        MatIcon,
-        MatIconButton,
-        NgClass,
-    ],
+    imports: [ReactiveFormsModule, MatFormFieldModule, MatCheckbox, MatIcon, MatIconButton, NgClass],
     templateUrl: './todo-item.component.html',
     styleUrl: './todo-item.component.scss',
 })
