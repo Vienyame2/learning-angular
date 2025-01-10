@@ -13,6 +13,7 @@
         [todoItem]="item"
         (save)="onSaveItem($event)"
         (delete)="onDeleteItem($event)"
+        (edit)="onEditItem($event)"
         (terminate)="onComplete($event)" />
     }
     <app-todo-item class="todos-item" #addTodoItem (save)="onSaveItem($event)" />
