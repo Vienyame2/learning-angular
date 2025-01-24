@@ -1,9 +1,12 @@
 import {
     Component,
+    computed,
     DestroyRef,
+    effect,
     ElementRef,
     EventEmitter,
     inject,
+    input,
     Input,
     OnInit,
     Output,
@@ -44,6 +47,8 @@ export class TodoItemComponent implements OnInit {
     @Input()
     public todoItem!: TodoItem;
 
+    public testCount = input(0);
+
     public name = new FormControl<string>('', Validators.minLength(1));
     public isCompleted = new FormControl(false);
     public formGroup: FormGroup;
@@ -69,6 +74,10 @@ export class TodoItemComponent implements OnInit {
             this.todoItem.state = value ? 'completed' : 'active';
             this.terminate.emit(this.todoItem);
         });
+
+        // effect(() => {
+        //     console.log(this.testCount());
+        // });
 
         this.name.valueChanges.subscribe(() => {
             if (this.todoItem?.id) {

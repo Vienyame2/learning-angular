@@ -1,4 +1,4 @@
-import { Component, computed, inject, Signal, ViewChild } from '@angular/core';
+import { Component, computed, inject, signal, Signal, ViewChild } from '@angular/core';
 import { TodoItemComponent } from '../todo-item/todo-item.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TodoListService } from '../services/todo-list.service';
@@ -60,12 +60,12 @@ export class TodoListComponent {
             width: '350px',
             position: { right: '5px', top: '5px' },
         });
-
-        ref.componentInstance.submitItem = (data: TodoItem) => this.submitData(data);
+        ref.afterClosed().subscribe((data: TodoItem) => this.submitData(data));
     }
 
     public submitData(data: TodoItem) {
         console.log(data);
         this.onSaveItem(data);
+        console.log(this.todoList());
     }
 }
