@@ -5,6 +5,7 @@ import {
     MatDialogActions,
     MatDialogClose,
     MatDialogContent,
+    MatDialogRef,
     MatDialogTitle,
 } from '@angular/material/dialog';
 import { MatButton } from '@angular/material/button';
@@ -18,18 +19,15 @@ import { DatePipe } from '@angular/common';
 })
 export class TodoItemInformationComponent implements OnInit {
     readonly data = inject<TodoItem>(MAT_DIALOG_DATA);
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    public onSubmit: (data: TodoItem) => void;
+    dialogRef = inject(MatDialogRef<TodoItemInformationComponent, TodoItem>);
     public ngOnInit() {
         console.log(this.data);
-        this.data['name'] = 'test name';
     }
 
     public onCancel() {}
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public submitItem(_data: TodoItem) {
-        this.onSubmit(_data);
+        _data['name'] = 'New edited name';
+        this.dialogRef.close(_data);
     }
 }
