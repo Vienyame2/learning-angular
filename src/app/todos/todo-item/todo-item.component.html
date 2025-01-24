@@ -22,15 +22,15 @@
             @if (inputStatus.isEdited) {
             <mat-icon matSuffix class="success">check_circle</mat-icon>
             } @if (todoItem && displayActionButtons) {
-          <button mat-icon-button (click)="editItem()">
-            <mat-icon fontIcon="edit" >delete</mat-icon>
-          </button>
+            <button mat-icon-button (click)="editItem()">
+                <mat-icon fontIcon="edit">delete</mat-icon>
+            </button>
             <button mat-icon-button (click)="onDelete()">
                 <mat-icon class="error">delete</mat-icon>
             </button>
             } @if (!todoItem) {
             <button mat-icon-button (click)="sendItem()" [disabled]="!name!.value?.length">
-                <mat-icon fontIcon="add"></mat-icon>
+                <mat-icon>done</mat-icon>
             </button>
             }
         </div>
