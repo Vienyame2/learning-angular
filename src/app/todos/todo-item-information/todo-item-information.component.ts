@@ -9,25 +9,47 @@ import {
     MatDialogTitle,
 } from '@angular/material/dialog';
 import { MatButton } from '@angular/material/button';
-import { DatePipe } from '@angular/common';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
 
 @Component({
     selector: 'app-todo-item-information',
-    imports: [MatDialogContent, MatDialogActions, MatButton, MatDialogClose, MatDialogTitle, DatePipe],
+    imports: [
+        MatDialogContent,
+        MatDialogActions,
+        MatButton,
+        MatLabel,
+        MatDialogClose,
+        MatDialogTitle,
+        ReactiveFormsModule,
+        MatInput,
+        MatFormField,
+    ],
     templateUrl: './todo-item-information.component.html',
     styleUrl: './todo-item-information.component.scss',
 })
 export class TodoItemInformationComponent implements OnInit {
     readonly data = inject<TodoItem>(MAT_DIALOG_DATA);
     dialogRef = inject(MatDialogRef<TodoItemInformationComponent, TodoItem>);
+
+    todoItemForm = new FormGroup({
+        name: new FormControl(this.data.name),
+        state: new FormControl(this.data.state),
+        creationDate: new FormControl(this.data.creationDate),
+        endDate: new FormControl(this.data.endDate),
+        description: new FormControl(this.data.description),
+        category: new FormControl(this.data.category),
+        favorite: new FormControl(this.data.favorite),
+    });
+
     public ngOnInit() {
         console.log(this.data);
     }
 
     public onCancel() {}
 
-    public submitItem(_data: TodoItem) {
-        _data['name'] = 'New edited name';
-        this.dialogRef.close(_data);
+    public submitItem() {
+        console.log(this.todoItemForm.value);
+        this.dialogRef.close({ ...this.data, ...this.todoItemForm.value });
     }
 }

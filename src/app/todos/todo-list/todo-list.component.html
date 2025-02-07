@@ -9,9 +9,9 @@
     </div>
 </section>
 <section class="new-list">
-    @for (item of todoList(); track item.id) {
+    @for (item of todoList(); track item().id) {
     <app-todo-item
-        [todoItem]="item"
+        [todoItem]="item()"
         (save)="onSaveItem($event)"
         (delete)="onDeleteItem($event)"
         (edit)="onEditItem($event)"
@@ -23,8 +23,8 @@
 <section class="completed-list">
     <mat-divider></mat-divider>
     <!-- completed todos -->
-    @for (item of completedTodos(); track item.id) {
-    <app-todo-item [todoItem]="item" (delete)="onDeleteItem($event)" (terminate)="onComplete($event)"/>
+    @for (item of completedTodos(); track item().id) {
+    <app-todo-item [todoItem]="item()" (delete)="onDeleteItem($event)" (terminate)="onComplete($event)"/>
     }
 </section>
 }

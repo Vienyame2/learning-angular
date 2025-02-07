@@ -1,6 +1,6 @@
 <form [formGroup]="formGroup">
     <div class="todo-item" (mouseover)="displayActionButtons = true">
-        @if (todoItem) {
+        @if (todoItem()) {
         <mat-checkbox class="todo-item__check" color="primary" [formControl]="isCompleted"></mat-checkbox>
         }
         <input
@@ -9,10 +9,10 @@
             [ngClass]="{
               'todo-item__input--editing': inputStatus.isEditing,
               'todo-item__input--completed': isCompleted.value,
-              'todo-item__input--empty':!todoItem
+              'todo-item__input--empty':!todoItem()
             }"
             [formControl]="name"
-            [placeholder]="todoItem ? '' : 'Add new task'"
+            [placeholder]="todoItem()?.name ? '' : 'Add new task'"
             [readOnly]="isCompleted.value"
             data-placeholder="'Nouvel élément'"
             (focusout)="onFocusOut()"
@@ -21,14 +21,14 @@
         <div class="todo-item__actions">
             @if (inputStatus.isEdited) {
             <mat-icon matSuffix class="success">check_circle</mat-icon>
-            } @if (todoItem && displayActionButtons) {
+            } @if (todoItem() && displayActionButtons) {
             <button mat-icon-button (click)="editItem()">
                 <mat-icon fontIcon="edit">delete</mat-icon>
             </button>
             <button mat-icon-button (click)="onDelete()">
                 <mat-icon class="error">delete</mat-icon>
             </button>
-            } @if (!todoItem) {
+            } @if (!todoItem()) {
             <button mat-icon-button (click)="sendItem()" [disabled]="!name!.value?.length">
                 <mat-icon>done</mat-icon>
             </button>

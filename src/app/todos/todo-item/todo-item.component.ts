@@ -1,13 +1,12 @@
 import {
     Component,
-    computed,
     DestroyRef,
     effect,
     ElementRef,
     EventEmitter,
     inject,
     input,
-    Input,
+    InputSignal,
     OnInit,
     Output,
     ViewChild,
@@ -44,12 +43,9 @@ export class TodoItemComponent implements OnInit {
     @Output()
     public terminate = new EventEmitter<TodoItem>();
 
-    @Input()
-    public todoItem!: TodoItem;
+    public todoItem: InputSignal<TodoItem | undefined> = input();
 
-    public testCount = input(0);
-
-    public name = new FormControl<string>('', Validators.minLength(1));
+    public name = new FormControl<string | undefined>('', Validators.minLength(1));
     public isCompleted = new FormControl(false);
     public formGroup: FormGroup;
     public inputStatus = {
@@ -65,24 +61,24 @@ export class TodoItemComponent implements OnInit {
             name: this.name,
             isCompleted: this.isCompleted,
         });
+
+        effect(() => {
+            this.name.setValue(this.todoItem()?.name);
+        });
     }
 
     public ngOnInit(): void {
-        this.name.setValue(this.todoItem?.name);
-        this.isCompleted.setValue(this.todoItem?.state === 'completed');
+        this.name.setValue(this.todoItem()?.name);
+        this.isCompleted.setValue(this.todoItem()?.state === 'completed');
         this.isCompleted.valueChanges.subscribe(value => {
-            this.todoItem.state = value ? 'completed' : 'active';
-            this.terminate.emit(this.todoItem);
+            // this.todoItem().state = value ? 'completed' : 'active';
+            // this.terminate.emit(this.todoItem());
         });
 
-        // effect(() => {
-        //     console.log(this.testCount());
-        // });
-
         this.name.valueChanges.subscribe(() => {
-            if (this.todoItem?.id) {
-                this.todoItem.state = 'editing';
-            }
+            // if (this.todoItem() && this.todoItem()?.id) {
+            //     this.todoItem().state = 'editing';
+            // }
             this.inputStatus.isEditing = true;
         });
     }
@@ -90,7 +86,7 @@ export class TodoItemComponent implements OnInit {
     public onKeyDown(event: KeyboardEvent) {
         if (event.key.toLowerCase() === 'enter') {
             this.sendItem();
-            if (this.todoItem?.id) {
+            if (this.todoItem()?.id) {
                 this.inputStatus.isEdited = true;
                 timer(1000)
                     .pipe(takeUntilDestroyed(this.destroyed$))
@@ -106,13 +102,13 @@ export class TodoItemComponent implements OnInit {
         const formValue = this.formGroup.value;
         if (formValue.name?.length > 0) {
             this.save.emit({
-                id: this.todoItem?.id,
+                id: this.todoItem()?.id,
                 name: formValue.name,
-                state: this.todoItem?.state || 'active',
-                creationDate: this.todoItem?.creationDate || new Date(),
+                state: this.todoItem()?.state || 'active',
+                creationDate: this.todoItem()?.creationDate || new Date(),
             });
 
-            if (!this.todoItem) {
+            if (!this.todoItem()) {
                 this.name.reset();
             }
         }
@@ -123,7 +119,7 @@ export class TodoItemComponent implements OnInit {
     }
 
     public onDelete() {
-        this.delete.emit(this.todoItem.id);
+        this.delete.emit(this.todoItem()?.id);
     }
 
     public onFocusOut() {
@@ -131,6 +127,6 @@ export class TodoItemComponent implements OnInit {
     }
 
     public editItem() {
-        this.edit.emit(this.todoItem);
+        this.edit.emit(this.todoItem());
     }
 }
