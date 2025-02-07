@@ -10,8 +10,16 @@ export class TodoListService {
 
     constructor() {}
 
-    public todoList = computed(() => this.state().items.filter(item => item.state !== 'completed'));
-    public completedTodos = computed(() => this.state().items.filter(item => item.state === 'completed'));
+    public todoList = computed(() =>
+        this.state()
+            .items.filter(item => item.state !== 'completed')
+            .map(item => signal(item)),
+    );
+    public completedTodos = computed(() =>
+        this.state()
+            .items.filter(item => item.state === 'completed')
+            .map(item => signal(item)),
+    );
     public todoCount = computed(() => this.state().count);
 
     public add(item: TodoItem) {

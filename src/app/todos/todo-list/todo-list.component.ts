@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal, Signal, ViewChild } from '@angular/core';
+import { Component, computed, inject, Signal, ViewChild } from '@angular/core';
 import { TodoItemComponent } from '../todo-item/todo-item.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TodoListService } from '../services/todo-list.service';
@@ -21,8 +21,8 @@ export class TodoListComponent {
     public todoService = inject(TodoListService);
     private dialog = inject(MatDialog);
 
-    public todoList: Signal<TodoItem[]> = this.todoService.todoList;
-    public completedTodos: Signal<TodoItem[]> = this.todoService.completedTodos;
+    public todoList: Signal<Signal<TodoItem>[]> = this.todoService.todoList;
+    public completedTodos: Signal<Signal<TodoItem>[]> = this.todoService.completedTodos;
     public todoCount: Signal<number> = this.todoService.todoCount;
     public todoCounter: Signal<{ active: number; completed: number; total: number }> = computed(() => ({
         total: this.todoCount(),
