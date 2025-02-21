@@ -12,12 +12,12 @@ export class TodoListService {
 
     public todoList = computed(() =>
         this.state()
-            .items.filter(item => item.state !== 'completed')
+            .items.filter(item => item.status !== 'completed')
             .map(item => signal(item)),
     );
     public completedTodos = computed(() =>
         this.state()
-            .items.filter(item => item.state === 'completed')
+            .items.filter(item => item.status === 'completed')
             .map(item => signal(item)),
     );
     public todoCount = computed(() => this.state().count);
