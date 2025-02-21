@@ -69,7 +69,7 @@ export class TodoItemComponent implements OnInit {
 
     public ngOnInit(): void {
         this.name.setValue(this.todoItem()?.name);
-        this.isCompleted.setValue(this.todoItem()?.state === 'completed');
+        this.isCompleted.setValue(this.todoItem()?.status === 'completed');
         this.isCompleted.valueChanges.subscribe(value => {
             // this.todoItem().state = value ? 'completed' : 'active';
             // this.terminate.emit(this.todoItem());
@@ -104,7 +104,7 @@ export class TodoItemComponent implements OnInit {
             this.save.emit({
                 id: this.todoItem()?.id,
                 name: formValue.name,
-                state: this.todoItem()?.state || 'active',
+                status: this.todoItem()?.status || 'active',
                 creationDate: this.todoItem()?.creationDate || new Date(),
             });
 

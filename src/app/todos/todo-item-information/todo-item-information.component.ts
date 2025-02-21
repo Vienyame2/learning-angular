@@ -8,9 +8,11 @@ import {
     MatDialogRef,
     MatDialogTitle,
 } from '@angular/material/dialog';
-import { MatButton } from '@angular/material/button';
+import { MatButton, MatIconButton } from '@angular/material/button';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
+import { MatIcon } from '@angular/material/icon';
+import { MatGridList, MatGridTile } from '@angular/material/grid-list';
 
 @Component({
     selector: 'app-todo-item-information',
@@ -24,6 +26,10 @@ import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
         ReactiveFormsModule,
         MatInput,
         MatFormField,
+        MatIcon,
+        MatGridTile,
+        MatGridList,
+        MatIconButton,
     ],
     templateUrl: './todo-item-information.component.html',
     styleUrl: './todo-item-information.component.scss',
@@ -34,7 +40,7 @@ export class TodoItemInformationComponent implements OnInit {
 
     todoItemForm = new FormGroup({
         name: new FormControl(this.data.name),
-        state: new FormControl(this.data.state),
+        state: new FormControl(this.data.status),
         creationDate: new FormControl(this.data.creationDate),
         endDate: new FormControl(this.data.endDate),
         description: new FormControl(this.data.description),
@@ -51,5 +57,10 @@ export class TodoItemInformationComponent implements OnInit {
     public submitItem() {
         console.log(this.todoItemForm.value);
         this.dialogRef.close({ ...this.data, ...this.todoItemForm.value });
+    }
+
+    onFavorite() {
+        const status = this.todoItemForm.get('favorite')?.value;
+        this.todoItemForm.patchValue({ favorite: !status });
     }
 }
