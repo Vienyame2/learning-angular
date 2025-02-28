@@ -13,6 +13,8 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
 import { MatIcon } from '@angular/material/icon';
 import { MatGridList, MatGridTile } from '@angular/material/grid-list';
+import { MatOption, MatSelect } from '@angular/material/select';
+import { CategoryService } from '../services/category.service';
 
 @Component({
     selector: 'app-todo-item-information',
@@ -30,6 +32,8 @@ import { MatGridList, MatGridTile } from '@angular/material/grid-list';
         MatGridTile,
         MatGridList,
         MatIconButton,
+        MatSelect,
+        MatOption,
     ],
     templateUrl: './todo-item-information.component.html',
     styleUrl: './todo-item-information.component.scss',
@@ -37,6 +41,9 @@ import { MatGridList, MatGridTile } from '@angular/material/grid-list';
 export class TodoItemInformationComponent implements OnInit {
     readonly data = inject<TodoItem>(MAT_DIALOG_DATA);
     dialogRef = inject(MatDialogRef<TodoItemInformationComponent, TodoItem>);
+    categoryService = inject(CategoryService);
+
+    categories = this.categoryService.categories.asReadonly();
 
     todoItemForm = new FormGroup({
         name: new FormControl(this.data.name),
@@ -49,7 +56,7 @@ export class TodoItemInformationComponent implements OnInit {
     });
 
     public ngOnInit() {
-        console.log(this.data);
+        console.log();
     }
 
     public onCancel() {}
