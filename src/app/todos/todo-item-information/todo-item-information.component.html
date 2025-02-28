@@ -4,13 +4,13 @@
             <h2 mat-dialog-title>{{ data.name }}</h2>
         </mat-grid-tile>
         <mat-grid-tile>
-          <button mat-icon-button (click)="onFavorite()">
-            @if (todoItemForm.get('favorite')?.value) {
-              <mat-icon>favorite</mat-icon>
-            } @else {
-              <mat-icon>favorite_border</mat-icon>
-            }
-          </button>
+            <button mat-icon-button (click)="onFavorite()">
+                @if (todoItemForm.get('favorite')?.value) {
+                <mat-icon>favorite</mat-icon>
+                } @else {
+                <mat-icon>favorite_border</mat-icon>
+                }
+            </button>
         </mat-grid-tile>
     </mat-grid-list>
 
@@ -22,7 +22,18 @@
             </mat-form-field>
             <mat-form-field>
                 <mat-label>Description</mat-label>
-                <textarea matInput formControlName="description"></textarea>
+                <textarea matInput formControlName="description" placeholder="Add description"></textarea>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Choose an option</mat-label>
+                <mat-select formControlName="category" placeholder="Select category">
+                    @for(category of categories(); track category.id ) {
+                    <mat-option [value]="category.color">
+                        {{ category.name }}
+                        <span class="circle" [style.background-color]="category.color"></span>
+                    </mat-option>
+                    }
+                </mat-select>
             </mat-form-field>
         </form>
     </mat-dialog-content>

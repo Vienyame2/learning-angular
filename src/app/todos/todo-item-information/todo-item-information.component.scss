@@ -7,3 +7,10 @@
 .spacer {
   flex-grow: 1;
 }
+
+.circle {
+  display: block;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+}
