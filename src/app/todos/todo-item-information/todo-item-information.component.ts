@@ -10,14 +10,23 @@ import {
 } from '@angular/material/dialog';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
+import { MatFormField, MatHint, MatInput, MatLabel } from '@angular/material/input';
 import { MatIcon } from '@angular/material/icon';
 import { MatGridList, MatGridTile } from '@angular/material/grid-list';
 import { MatOption, MatSelect } from '@angular/material/select';
 import { CategoryService } from '../services/category.service';
+import {
+    MatDatepicker,
+    MatDatepickerInput,
+    MatDatepickerModule,
+    MatDatepickerToggle,
+} from '@angular/material/datepicker';
+import { MatNativeDateModule, provideNativeDateAdapter } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
     selector: 'app-todo-item-information',
+    providers: [provideNativeDateAdapter()],
     imports: [
         MatDialogContent,
         MatDialogActions,
@@ -27,13 +36,18 @@ import { CategoryService } from '../services/category.service';
         MatDialogTitle,
         ReactiveFormsModule,
         MatInput,
-        MatFormField,
+        // MatFormField,
         MatIcon,
         MatGridTile,
         MatGridList,
         MatIconButton,
         MatSelect,
         MatOption,
+        MatHint,
+        MatFormFieldModule,
+        MatDatepickerModule,
+        MatDatepickerToggle,
+        MatNativeDateModule,
     ],
     templateUrl: './todo-item-information.component.html',
     styleUrl: './todo-item-information.component.scss',
@@ -56,7 +70,7 @@ export class TodoItemInformationComponent implements OnInit {
     });
 
     public ngOnInit() {
-        console.log();
+        console.log(this.data);
     }
 
     public onCancel() {}
