@@ -1,12 +1,14 @@
-import { computed, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { TodoItem } from '../models/todo-item.model';
 import { TodoListState } from './todo-list-state.model';
+import { TodosApiService } from './todos-api.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class TodoListService {
     public state = signal<TodoListState>({ items: [], count: 0 });
+    private todosApi = inject(TodosApiService);
 
     constructor() {}
 
@@ -25,6 +27,7 @@ export class TodoListService {
     public add(item: TodoItem) {
         item.id = crypto.randomUUID();
         this.state.update(state => ({ ...state, items: [...state.items, item], count: state.count + 1 }));
+        this.todosApi.add(item);
     }
 
     public update(todoItem: TodoItem) {
