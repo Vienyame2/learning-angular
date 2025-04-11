@@ -1,4 +1,4 @@
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, resource, signal } from '@angular/core';
 import { TodoItem } from '../models/todo-item.model';
 import { TodoListState } from './todo-list-state.model';
 import { TodosApiService } from './todos-api.service';
@@ -7,8 +7,20 @@ import { TodosApiService } from './todos-api.service';
     providedIn: 'root',
 })
 export class TodoListService {
-    public state = signal<TodoListState>({ items: [], count: 0 });
     private todosApi = inject(TodosApiService);
+    private todosList = resource({
+        loader: async () => {
+            const resp = await this.todosApi.getAll().toPromise();
+            if (resp) {
+                this.state.update(state => ({
+                    ...state,
+                    items: resp,
+                    count: resp.length,
+                }));
+            }
+        },
+    });
+    public state = signal<TodoListState>({ items: [], count: 0 });
 
     constructor() {}
 
@@ -45,12 +57,7 @@ export class TodoListService {
     }
 
     public delete(id: string) {
-        const updatedList = this.state().items.filter(item => item.id !== id);
-        this.state.update(state => ({
-            ...state,
-            items: updatedList,
-            count: state.count - 1,
-        }));
+        this.todosApi.delete(id).subscribe(() => this.todosList.reload());
     }
 
     public complete(todoItem: TodoItem) {
