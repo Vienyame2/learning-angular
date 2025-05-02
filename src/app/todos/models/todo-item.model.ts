@@ -1,8 +1,8 @@
 export interface TodoItem {
-    id?: string;
+    id?: string | undefined;
     name: string;
     status: 'editing' | 'completed' | 'active' | 'deleted';
-    creationDate: Date;
+    creationDate?: Date;
     endDate?: Date;
     description?: string;
     category?: Category;
