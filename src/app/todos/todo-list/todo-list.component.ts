@@ -7,6 +7,7 @@ import { MatDivider } from '@angular/material/divider';
 import { MatBadge } from '@angular/material/badge';
 import { MatDialog } from '@angular/material/dialog';
 import { TodoItemInformationComponent } from '../todo-item-information/todo-item-information.component';
+import { filter } from 'rxjs';
 
 @Component({
     selector: 'app-todo-list',
@@ -33,7 +34,7 @@ export class TodoListComponent {
     constructor() {}
 
     public onSaveItem(todoItem: TodoItem) {
-        if (todoItem.id) {
+        if (todoItem?.id) {
             this.todoService.update(todoItem);
             this.todoItemRef.focus();
             return;
@@ -60,7 +61,9 @@ export class TodoListComponent {
             width: '350px',
             position: { right: '5px', top: '5px' },
         });
-        ref.afterClosed().subscribe((data: TodoItem) => this.submitData(data));
+        ref.afterClosed()
+            .pipe(filter(todoItem => !!todoItem))
+            .subscribe((data: TodoItem) => this.submitData(data));
     }
 
     public submitData(data: TodoItem) {

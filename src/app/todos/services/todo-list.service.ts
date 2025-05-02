@@ -20,6 +20,7 @@ export class TodoListService {
             }
         },
     });
+
     public state = signal<TodoListState>({ items: [], count: 0 });
 
     constructor() {}
@@ -38,22 +39,11 @@ export class TodoListService {
 
     public add(item: TodoItem) {
         item.id = crypto.randomUUID();
-        this.state.update(state => ({ ...state, items: [...state.items, item], count: state.count + 1 }));
-        this.todosApi.add(item);
+        this.todosApi.add(item).subscribe(() => this.todosList.reload());
     }
 
     public update(todoItem: TodoItem) {
-        const updatedList = this.state().items.map(item => {
-            if (item.id === todoItem.id) {
-                return todoItem;
-            }
-            return item;
-        });
-
-        this.state.update(state => ({
-            ...state,
-            items: [...updatedList],
-        }));
+        this.todosApi.update(todoItem).subscribe(() => this.todosList.reload());
     }
 
     public delete(id: string) {
@@ -61,6 +51,7 @@ export class TodoListService {
     }
 
     public complete(todoItem: TodoItem) {
+        debugger;
         this.update(todoItem);
     }
 }

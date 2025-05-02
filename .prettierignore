@@ -9,5 +9,5 @@ coverage
 package.json
 package-lock.json
 
-*-api.service.ts
-api.generated.ts
+# *-api.service.ts
+# api.generated.ts
