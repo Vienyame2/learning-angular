@@ -1,12 +1,16 @@
-export interface TodoItem {
-    id?: string | undefined;
+export interface TodoItemLike {
     name: string;
-    status: 'editing' | 'completed' | 'active' | 'deleted';
+    status: TodoStatus;
     creationDate?: Date;
     endDate?: Date;
     description?: string;
     category?: Category;
     favorite?: boolean;
+}
+
+export type TodoStatus = 'editing' | 'completed' | 'active' | 'deleted';
+export interface TodoItem extends TodoItemLike {
+    id?: string | undefined;
 }
 
 export interface Category {
