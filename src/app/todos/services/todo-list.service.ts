@@ -39,6 +39,7 @@ export class TodoListService {
 
     public add(item: TodoItem) {
         item.id = crypto.randomUUID();
+        debugger;
         this.todosApi.add(item).subscribe(() => this.todosList.reload());
     }
 
