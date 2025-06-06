@@ -20,13 +20,13 @@ import { MatNativeDateModule, provideNativeDateAdapter } from '@angular/material
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 export interface TodoItemForm {
-    name: FormControl<string | null>;
+    name: FormControl<string>;
     status: FormControl<TodoStatus>;
     creationDate: FormControl<Date>;
-    endDate: FormControl<Date>;
-    description: FormControl<string>;
-    category: FormControl<Category>;
-    favorite: FormControl<boolean>;
+    endDate: FormControl<Date | undefined>;
+    description: FormControl<string | undefined>;
+    category: FormControl<Category | undefined>;
+    favorite: FormControl<boolean | undefined>;
 }
 
 @Component({
@@ -41,7 +41,6 @@ export interface TodoItemForm {
         MatDialogTitle,
         ReactiveFormsModule,
         MatInput,
-        // MatFormField,
         MatIcon,
         MatGridTile,
         MatGridList,
@@ -62,15 +61,14 @@ export class TodoItemInformationComponent implements OnInit {
     dialogRef = inject(MatDialogRef<TodoItemInformationComponent, TodoItem>);
     categoryService = inject(CategoryService);
     categories = this.categoryService.categories.asReadonly();
-    // TODO: use types for
-    todoItemForm = new FormGroup({
-        name: new FormControl(this.data.name),
-        status: new FormControl(this.data.status, { nonNullable: false }),
-        creationDate: new FormControl(this.data.creationDate, { nonNullable: false }),
-        endDate: new FormControl(this.data.endDate),
-        description: new FormControl(this.data.description),
-        category: new FormControl(this.data.category),
-        favorite: new FormControl(this.data.favorite),
+    todoItemForm = new FormGroup<TodoItemForm>({
+        name: new FormControl(this.data.name, { nonNullable: true }),
+        status: new FormControl(this.data.status, { nonNullable: true }),
+        creationDate: new FormControl(this.data.creationDate, { nonNullable: true }),
+        endDate: new FormControl(this.data.endDate, { nonNullable: true }),
+        description: new FormControl(this.data.description, { nonNullable: true }),
+        category: new FormControl(this.data.category, { nonNullable: true }),
+        favorite: new FormControl(this.data.favorite, { nonNullable: true }),
     });
 
     public ngOnInit() {
