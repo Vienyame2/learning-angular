@@ -1,7 +1,7 @@
 export interface TodoItemLike {
     name: string;
     status: TodoStatus;
-    creationDate?: Date;
+    creationDate: Date;
     endDate?: Date;
     description?: string;
     category?: Category;

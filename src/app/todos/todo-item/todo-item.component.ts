@@ -74,18 +74,17 @@ export class TodoItemComponent implements OnInit {
         this.isCompleted.valueChanges.subscribe(value => {
             const completedTodoItem: TodoItem = {
                 ...this.todoItem(),
+                creationDate: this.todoItem()?.creationDate || new Date(),
                 status: value ? 'completed' : 'active',
                 name: this.todoItem()?.name || '',
             };
-
-            // const test = this.todoItem();
 
             this.terminate.emit(completedTodoItem);
         });
 
         this.name.valueChanges.subscribe(() => {
             // if (this.todoItem() && this.todoItem()?.id) {
-            //     this.todoItem().state = 'editing';
+            //     this.todoItem()?.status = 'editing';
             // }
             this.inputStatus.isEditing = true;
         });
