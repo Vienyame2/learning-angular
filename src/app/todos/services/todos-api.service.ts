@@ -8,7 +8,8 @@ import { Observable } from 'rxjs';
 })
 export class TodosApiService {
     private apiUrl = `http://localhost:3000/todos/`;
-    private httpClient = inject(HttpClient);
+
+    private readonly httpClient = inject(HttpClient);
 
     public add(todo: TodoItem): Observable<TodoItem[]> {
         return this.httpClient.post<TodoItem[]>(this.apiUrl, todo);

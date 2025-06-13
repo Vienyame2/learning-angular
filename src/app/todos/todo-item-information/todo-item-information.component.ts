@@ -57,11 +57,15 @@ export interface TodoItemForm {
     styleUrl: './todo-item-information.component.scss',
 })
 export class TodoItemInformationComponent implements OnInit {
-    readonly data = inject<TodoItem>(MAT_DIALOG_DATA);
-    dialogRef = inject(MatDialogRef<TodoItemInformationComponent, TodoItem>);
-    categoryService = inject(CategoryService);
-    categories = this.categoryService.categories.asReadonly();
-    todoItemForm = new FormGroup<TodoItemForm>({
+    private readonly dialogRef = inject(MatDialogRef<TodoItemInformationComponent, TodoItem>);
+
+    private readonly categoryService = inject(CategoryService);
+
+    public readonly data = inject<TodoItem>(MAT_DIALOG_DATA);
+
+    public categories = this.categoryService.categories.asReadonly();
+
+    public todoItemForm = new FormGroup<TodoItemForm>({
         name: new FormControl(this.data.name, { nonNullable: true }),
         status: new FormControl(this.data.status, { nonNullable: true }),
         creationDate: new FormControl(this.data.creationDate, { nonNullable: true }),
@@ -82,7 +86,7 @@ export class TodoItemInformationComponent implements OnInit {
         this.dialogRef.close({ ...this.data, ...this.todoItemForm.value });
     }
 
-    onFavorite() {
+    public onFavorite() {
         const status = this.todoItemForm.get('favorite')?.value;
         this.todoItemForm.patchValue({ favorite: !status });
     }
