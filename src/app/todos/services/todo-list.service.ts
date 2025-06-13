@@ -7,7 +7,8 @@ import { TodosApiService } from './todos-api.service';
     providedIn: 'root',
 })
 export class TodoListService {
-    private todosApi = inject(TodosApiService);
+    private readonly todosApi = inject(TodosApiService);
+
     private todosList = resource({
         loader: async () => {
             const resp = await this.todosApi.getAll().toPromise();

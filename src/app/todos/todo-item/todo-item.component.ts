@@ -46,15 +46,19 @@ export class TodoItemComponent implements OnInit {
     public todoItem: InputSignal<TodoItem | undefined> = input();
 
     public name = new FormControl<string | undefined>('', Validators.minLength(1));
+
     public isCompleted = new FormControl(false);
+
     public formGroup: FormGroup;
+
     public inputStatus = {
         isEditing: false,
         isEdited: false,
     };
 
     public displayActionButtons = false;
-    private destroyed$ = inject(DestroyRef);
+
+    private readonly destroyed$ = inject(DestroyRef);
 
     constructor() {
         this.formGroup = new FormGroup({

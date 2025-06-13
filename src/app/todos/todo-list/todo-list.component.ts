@@ -16,22 +16,24 @@ import { filter } from 'rxjs';
     styleUrl: './todo-list.component.scss',
 })
 export class TodoListComponent {
+    private readonly dialog = inject(MatDialog);
+
+    private readonly todoService = inject(TodoListService);
+
     @ViewChild('addTodoItem')
     public todoItemRef!: TodoItemComponent;
 
-    public todoService = inject(TodoListService);
-    private dialog = inject(MatDialog);
-
     public todoList: Signal<Signal<TodoItem>[]> = this.todoService.todoList;
+
     public completedTodos: Signal<Signal<TodoItem>[]> = this.todoService.completedTodos;
+
     public todoCount: Signal<number> = this.todoService.todoCount;
+
     public todoCounter: Signal<{ active: number; completed: number; total: number }> = computed(() => ({
         total: this.todoCount(),
         active: this.todoCount() - this.completedTodos().length,
         completed: this.completedTodos().length,
     }));
-
-    constructor() {}
 
     public onSaveItem(todoItem: TodoItem) {
         if (todoItem?.id) {
