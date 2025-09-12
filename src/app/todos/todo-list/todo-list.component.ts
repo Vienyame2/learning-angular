@@ -8,10 +8,11 @@ import { MatBadge } from '@angular/material/badge';
 import { MatDialog } from '@angular/material/dialog';
 import { TodoItemInformationComponent } from '../todo-item-information/todo-item-information.component';
 import { filter } from 'rxjs';
+import { OrderByPipe } from '../pipes/sort.pipe';
 
 @Component({
     selector: 'app-todo-list',
-    imports: [TodoItemComponent, ReactiveFormsModule, MatDivider, MatBadge],
+    imports: [TodoItemComponent, ReactiveFormsModule, MatDivider, MatBadge, OrderByPipe],
     templateUrl: './todo-list.component.html',
     styleUrl: './todo-list.component.scss',
 })
