@@ -1,8 +1,18 @@
 <form [formGroup]="formGroup">
     <div class="todo-item" (mouseover)="displayActionButtons = true">
         @if (todoItem()) {
-        <mat-checkbox class="todo-item__check" color="primary" [formControl]="isCompleted"></mat-checkbox>
-        }
+        <!--        <mat-checkbox class="todo-item__check" color="primary" [formControl]="isCompleted"></mat-checkbox>-->
+        @if(todoItem()?.status === 'completed') {
+        <mat-icon matSuffix>check_circle</mat-icon>
+        }@else {
+        <div
+            class="todo-item__check"
+            (mouseover)="statusTodoItem = 'check_circle'"
+            (mouseleave)="statusTodoItem = 'radio_button_unchecked'"
+            (click)="complete()">
+            <mat-icon matSuffix>{{ statusTodoItem }}</mat-icon>
+        </div>
+        } }
         <input
             #addTodoItemInput
             class="todo-item__input todo-item__input--flat"

@@ -7,6 +7,9 @@
         <div [matBadge]="todoCounter().completed" matBadgeSize="small" matBadgeColor="primary">Completed</div>
     </div>
 </section>
+<section class="todo-actions-container">
+  <app-todo-actions></app-todo-actions>
+</section>
 <section class="new-list">
     <app-todo-item class="todos-item" #addTodoItem (save)="onSaveItem($event)" />
     @for (item of (todoList() | orderBy ); track item().id) {
