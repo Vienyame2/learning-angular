@@ -1,6 +1,6 @@
 import { Component, computed, inject, Signal, ViewChild } from '@angular/core';
 import { TodoItemComponent } from '../todo-item/todo-item.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TodoListService } from '../services/todo-list.service';
 import { TodoItem } from '../models/todo-item.model';
 import { MatDivider } from '@angular/material/divider';
@@ -9,10 +9,19 @@ import { MatDialog } from '@angular/material/dialog';
 import { TodoItemInformationComponent } from '../todo-item-information/todo-item-information.component';
 import { filter } from 'rxjs';
 import { OrderByPipe } from '../pipes/sort.pipe';
+import { TodoActionsComponent } from '../todo-actions/todo-actions.component';
 
 @Component({
     selector: 'app-todo-list',
-    imports: [TodoItemComponent, ReactiveFormsModule, MatDivider, MatBadge, OrderByPipe],
+    imports: [
+        TodoItemComponent,
+        ReactiveFormsModule,
+        MatDivider,
+        MatBadge,
+        OrderByPipe,
+        FormsModule,
+        TodoActionsComponent,
+    ],
     templateUrl: './todo-list.component.html',
     styleUrl: './todo-list.component.scss',
 })
@@ -23,6 +32,8 @@ export class TodoListComponent {
 
     @ViewChild('addTodoItem')
     public todoItemRef!: TodoItemComponent;
+
+    public selectAll = false;
 
     public todoList: Signal<Signal<TodoItem>[]> = this.todoService.todoList;
 

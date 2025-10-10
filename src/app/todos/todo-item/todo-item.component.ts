@@ -13,7 +13,6 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatCheckbox } from '@angular/material/checkbox';
 import { TodoItem } from '../models/todo-item.model';
 import { MatIcon } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
@@ -23,7 +22,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
     selector: 'app-todo-item',
-    imports: [ReactiveFormsModule, MatFormFieldModule, MatCheckbox, MatIcon, MatIconButton, NgClass],
+    imports: [ReactiveFormsModule, MatFormFieldModule, MatIcon, MatIconButton, NgClass],
     templateUrl: './todo-item.component.html',
     styleUrl: './todo-item.component.scss',
 })
@@ -57,6 +56,8 @@ export class TodoItemComponent implements OnInit {
     };
 
     public displayActionButtons = false;
+
+    public statusTodoItem = 'radio_button_unchecked';
 
     private readonly destroyed$ = inject(DestroyRef);
 
@@ -139,5 +140,9 @@ export class TodoItemComponent implements OnInit {
 
     public editItem() {
         this.edit.emit(this.todoItem());
+    }
+
+    public complete() {
+        this.isCompleted.setValue(!this.isCompleted.value);
     }
 }
