@@ -1,4 +1,4 @@
-import { Component, computed, inject, Signal, ViewChild } from '@angular/core';
+import { Component, computed, inject, signal, Signal, ViewChild } from '@angular/core';
 import { TodoItemComponent } from '../todo-item/todo-item.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TodoListService } from '../services/todo-list.service';
@@ -33,7 +33,11 @@ export class TodoListComponent {
     @ViewChild('addTodoItem')
     public todoItemRef!: TodoItemComponent;
 
-    public selectAll = false;
+    public selectAll = signal(false);
+
+    public isChanged = computed(() => {
+        return this.selectAll();
+    });
 
     public todoList: Signal<Signal<TodoItem>[]> = this.todoService.todoList;
 

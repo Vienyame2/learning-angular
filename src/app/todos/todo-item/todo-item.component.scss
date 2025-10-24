@@ -50,6 +50,10 @@
         }
     }
 
+    &__check {
+        cursor: pointer;
+    }
+
     &__actions {
         display: flex;
         gap: 5px;

@@ -6,6 +6,7 @@ export interface TodoItemLike {
     description?: string;
     category?: Category;
     favorite?: boolean;
+    selected?: boolean;
 }
 
 export type TodoStatus = 'editing' | 'completed' | 'active' | 'deleted';
