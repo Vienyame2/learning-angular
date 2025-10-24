@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, model } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatCheckbox } from '@angular/material/checkbox';
+import { MatCheckbox, MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
     selector: 'app-todo-actions',
@@ -8,4 +8,12 @@ import { MatCheckbox } from '@angular/material/checkbox';
     templateUrl: './todo-actions.component.html',
     styleUrl: './todo-actions.component.scss',
 })
-export class TodoActionsComponent {}
+export class TodoActionsComponent {
+    public selectAll = model<boolean>();
+
+    public updateSelectAll({ checked }: MatCheckboxChange) {
+        console.log(checked);
+        this.selectAll.set(checked);
+        console.log('Select All Toggled:', this.selectAll());
+    }
+}
