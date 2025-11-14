@@ -23,6 +23,10 @@ export class TodosApiService {
         return this.httpClient.delete<void>(`${this.apiUrl}${id}`);
     }
 
+    public deleteAll(): Observable<void> {
+        return this.httpClient.delete<void>(this.apiUrl);
+    }
+
     public update(todo: TodoItem): Observable<void> {
         return this.httpClient.put<void>(`${this.apiUrl}${todo.id}`, todo);
     }

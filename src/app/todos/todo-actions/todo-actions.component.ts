@@ -1,19 +1,25 @@
-import { Component, model } from '@angular/core';
+import { Component, EventEmitter, model, Output } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatCheckbox, MatCheckboxChange } from '@angular/material/checkbox';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
     selector: 'app-todo-actions',
-    imports: [ReactiveFormsModule, MatCheckbox],
+    imports: [ReactiveFormsModule, MatCheckbox, MatIcon, MatIconButton],
     templateUrl: './todo-actions.component.html',
     styleUrl: './todo-actions.component.scss',
 })
 export class TodoActionsComponent {
     public selectAll = model<boolean>();
+    @Output() public deleteAll = new EventEmitter<boolean>();
 
     public updateSelectAll({ checked }: MatCheckboxChange) {
-        console.log(checked);
         this.selectAll.set(checked);
-        console.log('Select All Toggled:', this.selectAll());
+    }
+
+    public deleteAllItems() {
+        console.log('Delete all todos');
+        this.deleteAll.emit(true);
     }
 }

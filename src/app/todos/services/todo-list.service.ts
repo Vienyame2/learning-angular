@@ -26,11 +26,12 @@ export class TodoListService {
 
     constructor() {}
 
-    public todoList = computed(() =>
-        this.state()
+    public todoList = computed(() => {
+        return this.state()
             .items.filter(item => item.status !== 'completed')
-            .map(item => signal(item)),
-    );
+            .map(item => signal(item));
+    });
+
     public completedTodos = computed(() =>
         this.state()
             .items.filter(item => item.status === 'completed')
@@ -40,7 +41,6 @@ export class TodoListService {
 
     public add(item: TodoItem) {
         item.id = crypto.randomUUID();
-        debugger;
         this.todosApi.add(item).subscribe(() => this.todosList.reload());
     }
 
@@ -52,8 +52,31 @@ export class TodoListService {
         this.todosApi.delete(id).subscribe(() => this.todosList.reload());
     }
 
+    public deleteAll() {
+        this.state().items.forEach((item, idx) => {
+            if (item.id) {
+                this.todosApi.delete(item.id).subscribe(() => {
+                    if (idx === this.state().items.length - 1) {
+                        this.todosList.reload();
+                    }
+                });
+            }
+        });
+    }
+
     public complete(todoItem: TodoItem) {
-        debugger;
         this.update(todoItem);
+    }
+
+    public selectAll(selectAll: boolean) {
+        this.state.update(state => ({
+            ...state,
+            items: state.items
+                .filter(item => item.status !== 'completed')
+                .map(item => ({
+                    ...item,
+                    selected: selectAll,
+                })),
+        }));
     }
 }

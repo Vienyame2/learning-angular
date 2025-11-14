@@ -2,7 +2,7 @@
     <div class="todo-item" (mouseover)="displayActionButtons = true">
         @if (todoItem()) {
         <!--        <mat-checkbox class="todo-item__check" color="primary" [formControl]="isCompleted"></mat-checkbox>-->
-        @if(todoItem()?.status === 'completed') {
+        @if(todoItem()?.status === 'completed' || todoItem()?.selected) {
         <div class="todo-item__check">
             <mat-icon matSuffix (mousedown)="complete()">check_circle></mat-icon>
         </div>
