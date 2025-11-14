@@ -4,10 +4,10 @@ import { compareAsc, compareDesc } from 'date-fns';
 
 @Pipe({
     name: 'orderBy',
+    standalone: true,
 })
 export class OrderByPipe implements PipeTransform {
     transform(todoItems: Signal<TodoItem>[], direction: 'asc' | 'desc' = 'asc'): Signal<TodoItem>[] {
-        console.log(direction);
         if (direction === 'desc') {
             return todoItems.sort((a, b) => compareDesc(b().creationDate, a().creationDate));
         }

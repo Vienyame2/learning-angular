@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal, Signal, ViewChild } from '@angular/core';
+import { Component, computed, effect, inject, signal, Signal, ViewChild } from '@angular/core';
 import { TodoItemComponent } from '../todo-item/todo-item.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TodoListService } from '../services/todo-list.service';
@@ -35,10 +35,6 @@ export class TodoListComponent {
 
     public selectAll = signal(false);
 
-    public isChanged = computed(() => {
-        return this.selectAll();
-    });
-
     public todoList: Signal<Signal<TodoItem>[]> = this.todoService.todoList;
 
     public completedTodos: Signal<Signal<TodoItem>[]> = this.todoService.completedTodos;
@@ -50,6 +46,13 @@ export class TodoListComponent {
         active: this.todoCount() - this.completedTodos().length,
         completed: this.completedTodos().length,
     }));
+
+    constructor() {
+        effect(() => {
+            console.log('[Effects: update selection state of todo items]');
+            this.todoService.selectAll(this.selectAll());
+        });
+    }
 
     public onSaveItem(todoItem: TodoItem) {
         if (todoItem?.id) {
@@ -88,5 +91,10 @@ export class TodoListComponent {
         console.log(data);
         this.onSaveItem(data);
         console.log(this.todoList());
+    }
+
+    public deleteTodos($event: boolean) {
+        console.log($event);
+        this.todoService.deleteAll();
     }
 }

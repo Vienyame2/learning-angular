@@ -1,3 +1,10 @@
 <div class="todo-item">
-    <mat-checkbox class="todo-item__check" color="primary" [checked]="selectAll()" (change)="updateSelectAll($event)"></mat-checkbox>
+    <mat-checkbox
+        class="todo-item__check"
+        color="primary"
+        [checked]="selectAll()"
+        (change)="updateSelectAll($event)"></mat-checkbox>
+    <button mat-icon-button (click)="deleteAllItems()" [disabled]="!selectAll()">
+        <mat-icon fontIcon="delete">delete</mat-icon>
+    </button>
 </div>

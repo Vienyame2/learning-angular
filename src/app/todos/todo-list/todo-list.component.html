@@ -8,8 +8,7 @@
     </div>
 </section>
 <section class="todo-actions-container">
-  <app-todo-actions [(selectAll)]="selectAll"></app-todo-actions>
-  {{ isChanged() }}
+  <app-todo-actions [(selectAll)]="selectAll" (deleteAll)="deleteTodos($event)"></app-todo-actions>
 </section>
 <section class="new-list">
     <app-todo-item class="todos-item" #addTodoItem (save)="onSaveItem($event)" />

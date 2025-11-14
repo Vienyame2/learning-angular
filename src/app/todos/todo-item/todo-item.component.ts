@@ -68,7 +68,6 @@ export class TodoItemComponent implements OnInit {
         });
 
         effect(() => {
-            console.log('handle effects');
             this.name.setValue(this.todoItem()?.name, { emitEvent: false });
         });
     }
