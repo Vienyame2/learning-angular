@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, signal, Signal, ViewChild } from '@angular/core';
+import { Component, computed, effect, inject, signal, Signal, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { TodoItemComponent } from '../todo-item/todo-item.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TodoListService } from '../services/todo-list.service';
@@ -23,6 +23,7 @@ import { TodoActionsComponent } from '../todo-actions/todo-actions.component';
         TodoActionsComponent,
     ],
     templateUrl: './todo-list.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './todo-list.component.scss',
 })
 export class TodoListComponent {

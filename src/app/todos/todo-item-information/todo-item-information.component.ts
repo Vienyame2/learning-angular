@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Category, TodoItem, TodoStatus } from '../models/todo-item.model';
 import {
     MAT_DIALOG_DATA,
@@ -54,6 +54,7 @@ export interface TodoItemForm {
         MatNativeDateModule,
     ],
     templateUrl: './todo-item-information.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './todo-item-information.component.scss',
 })
 export class TodoItemInformationComponent implements OnInit {

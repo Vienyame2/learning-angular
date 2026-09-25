@@ -10,6 +10,7 @@ import {
     OnInit,
     Output,
     ViewChild,
+    ChangeDetectionStrategy,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -24,6 +25,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     selector: 'app-todo-item',
     imports: [ReactiveFormsModule, MatFormFieldModule, MatIcon, MatIconButton, NgClass],
     templateUrl: './todo-item.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './todo-item.component.scss',
 })
 export class TodoItemComponent implements OnInit {
