@@ -1,0 +1,80 @@
+.todo-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 5px;
+    background-color: #f4f4f4;
+    margin-bottom: 10px;
+    //border-top: 1px solid #ccc;
+
+    &__input {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        flex: 1 1 0;
+        background-color: #f4f4f4;
+
+        &:empty::before {
+            content: attr(data-placeholder);
+            color: #ccc;
+        }
+        &:hover {
+            background-color: #f4f4f4;
+        }
+
+        &--empty {
+            margin-left: 40px;
+        }
+        &--flat {
+            border-color: transparent;
+        }
+        &--disabled {
+            background-color: #f9f9f9;
+        }
+        &--completed {
+            text-decoration: line-through;
+            text-decoration-line: line-through;
+            opacity: 0.4;
+            cursor: default;
+        }
+        &--editing {
+            border-color: aquamarine !important;
+            &:focus-visible {
+                border-color: aquamarine !important;
+            }
+        }
+        &:focus-visible {
+            outline: 0;
+        }
+    }
+
+    &__check {
+        cursor: pointer;
+    }
+
+    &__actions {
+        display: flex;
+        gap: 5px;
+        justify-content: space-between;
+        align-items: center;
+        height: 30px;
+    }
+}
+
+.success {
+    color: green; //#4CAF50;
+}
+
+.error {
+    color: red; //#F44336;
+}
+
+.warning {
+    color: orange; // #FFC107;
+}
+
+.info {
+    color: blue; // #2196F3;
+}

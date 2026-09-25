@@ -1,0 +1,26 @@
+.todos-item {
+    display: block;
+}
+
+.counter,
+.completed-list {
+    margin: 50px 0;
+    padding: 0 50px;
+}
+.new-list {
+    margin-bottom: 50px;
+    padding: 0 50px;
+}
+.todo-actions-container {
+    margin-top: 50px;
+    padding: 0 50px;
+}
+
+.todo {
+    &__counters {
+        display: flex;
+        justify-content: end;
+        padding: 0 3em;
+        gap: 3em;
+    }
+}

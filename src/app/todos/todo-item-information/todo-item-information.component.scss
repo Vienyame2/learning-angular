@@ -1,0 +1,16 @@
+.fixActionRow {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.spacer {
+  flex-grow: 1;
+}
+
+.circle {
+  display: block;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+}

@@ -1,0 +1,32 @@
+<h1>Todo</h1>
+
+<section>
+    <div class="todo__counters">
+        <div [matBadge]="todoCounter().total" matBadgeSize="small" matBadgeColor="primary">Total</div>
+        <div [matBadge]="todoCounter().active" matBadgeSize="small" matBadgeColor="primary">Active</div>
+        <div [matBadge]="todoCounter().completed" matBadgeSize="small" matBadgeColor="primary">Completed</div>
+    </div>
+</section>
+<section class="todo-actions-container">
+  <app-todo-actions [(selectAll)]="selectAll" (deleteAll)="deleteTodos($event)"></app-todo-actions>
+</section>
+<section class="new-list">
+    <app-todo-item class="todos-item" #addTodoItem (save)="onSaveItem($event)" />
+    @for (item of (todoList() | orderBy ); track item().id) {
+    <app-todo-item
+        [todoItem]="item()"
+        (save)="onSaveItem($event)"
+        (delete)="onDeleteItem($event)"
+        (edit)="onEditItem($event)"
+        (terminate)="onComplete($event)" />
+    }
+</section>
+@if (completedTodos().length) {
+<section class="completed-list">
+    <mat-divider></mat-divider>
+    <!-- completed todos -->
+    @for (item of completedTodos(); track item().id) {
+    <app-todo-item [todoItem]="item()" (delete)="onDeleteItem($event)" (terminate)="onComplete($event)" />
+    }
+</section>
+}
